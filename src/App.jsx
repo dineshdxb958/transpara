@@ -62,7 +62,7 @@ export default function Transpara() {
   const downloadPack = () => {
     const content = results.map((r) => `${r.label} (${r.article})\n${'-'.repeat(40)}\n${r.disclosureTemplate(companyName)}\n`).join('\n\n');
     const header = `TRANSPARA \u2014 AI ACT DISCLOSURE PACK\nGenerated for: ${companyName}\nDate: ${new Date().toLocaleDateString('en-GB')}\n\n${'='.repeat(50)}\n\n`;
-    const blob = new Blob([header + content], { type: 'text/plain' });
+    const blob = new Blob(['\uFEFF' + header + content], { type: 'text/plain;charset=utf-8' });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
