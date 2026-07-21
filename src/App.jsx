@@ -60,6 +60,13 @@ export default function Transpara() {
     return Math.max(0, Math.ceil(diffMs / (1000 * 60 * 60 * 24)));
   }, []);
   const [companyName, setCompanyName] = useState('Nordvale Retail O\u00dc');
+  const [badgeCopied, setBadgeCopied] = useState(false);
+  const badgeSnippet = `<a href="https://transpara-nu.vercel.app" target="_blank" style="display:inline-flex;align-items:center;gap:6px;padding:6px 12px;border-radius:999px;background:#0033A0;color:#fff;font-family:sans-serif;font-size:12px;text-decoration:none;">\u2713 AI Act Transparent \u2014 verified via Transpara</a>`;
+  const copyBadge = () => {
+    navigator.clipboard?.writeText(badgeSnippet).catch(() => {});
+    setBadgeCopied(true);
+    setTimeout(() => setBadgeCopied(false), 1800);
+  };
 
   const toggle = (id) => setSelectedIds((p) => (p.includes(id) ? p.filter((x) => x !== id) : [...p, id]));
   const results = useMemo(() => TOOL_LIBRARY.filter((t) => selectedIds.includes(t.id)), [selectedIds]);
@@ -245,9 +252,28 @@ export default function Transpara() {
                 <ArrowRight size={15} />
               </button>
             )}
+
+            {results.length > 0 && (
+              <div className="mt-4 rounded-xl p-4" style={{ background: PANEL, border: `1px solid ${LINE}` }}>
+                <div className="flex items-center justify-between mb-2.5">
+                  <span className="text-[12.5px] font-semibold" style={{ color: INK }}>Embeddable trust badge</span>
+                  <button
+                    onClick={copyBadge}
+                    className="text-[11.5px] font-medium px-2.5 py-1 rounded-md transition-colors"
+                    style={{ background: badgeCopied ? '#E7F6EE' : '#FFFFFF', color: badgeCopied ? '#1E8E5A' : SLATE, border: `1px solid ${LINE}` }}
+                  >
+                    {badgeCopied ? 'Copied!' : 'Copy code'}
+                  </button>
+                </div>
+                <p className="text-[11.5px] mb-2.5" style={{ color: SLATE }}>Add this to your website footer to show customers you're transparent about AI use.</p>
+                <div className="rounded-lg px-3 py-2.5" style={{ background: '#0033A0' }}>
+                  <span className="text-white text-[11px]">\u2713 AI Act Transparent \u2014 verified via Transpara</span>
+                </div>
+              </div>
+            )}
           </div>
         </div>
       </main>
     </div>
   );
-                                          }
+      }
