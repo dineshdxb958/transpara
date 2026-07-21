@@ -52,6 +52,13 @@ function ToolRow({ tool, selected, onToggle }) {
 
 export default function Transpara() {
   const [selectedIds, setSelectedIds] = useState(['chatbot', 'content']);
+  const daysLeft = useMemo(() => {
+    const deadline = new Date('2026-08-02T00:00:00');
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    const diffMs = deadline - today;
+    return Math.max(0, Math.ceil(diffMs / (1000 * 60 * 60 * 24)));
+  }, []);
   const [companyName, setCompanyName] = useState('Nordvale Retail O\u00dc');
 
   const toggle = (id) => setSelectedIds((p) => (p.includes(id) ? p.filter((x) => x !== id) : [...p, id]));
@@ -168,7 +175,7 @@ export default function Transpara() {
           <div>
             <div className="text-[13px] font-medium mb-3" style={{ color: SLATE }}>Article 50 enforcement begins in</div>
             <div className="flex items-baseline gap-3">
-              <span className="text-[64px] font-bold tracking-tight leading-none tabular-nums" style={{ color: INK }}>13</span>
+              <span className="text-[64px] font-bold tracking-tight leading-none tabular-nums" style={{ color: INK }}>{daysLeft}</span>
               <span className="text-[16px] font-medium" style={{ color: SLATE }}>days</span>
             </div>
             <div className="text-[13px] mt-2" style={{ color: MUTE }}>2 August 2026 · binding across all 27 EU member states</div>
@@ -243,5 +250,4 @@ export default function Transpara() {
       </main>
     </div>
   );
-          }
-      
+                                          }
